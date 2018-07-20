@@ -9,6 +9,8 @@
 import React, { Component } from 'react';
 import { Platform, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { fetchExample } from './src/services/api';
+
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
   android:
@@ -18,6 +20,11 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
+
+  componentDidMount() {
+    fetchExample();
+  }
+
   render() {
     let exArr = [];
     for (var i = 0; i < 20; i++) {
