@@ -19,32 +19,52 @@ export const getBoundingBoxFromGeo = (lat, lon, diameter) => {
   return bndBox;
 }
 
-export const getPlacesFromBB = (bbox, distance) => {
-  let baseUrl = "https://api.flickr.com/services/rest/?method=flickr.places.placesForBoundingBox"
-  var place_type_id = 0
+export const getPlaceParams = (bbox, distance) => {
+  let place_type_id = 0
 
-  switch distance {
-  case 0...1.8:
+  switch (true) {
+
+  case (distance <= 1.81):
      place_type_id = 22
-  case 1.81...4.3:
+     break;
+
+  case (distance <= 4.3):
      place_type_id = 7
-  case 4.31...31:
+     break;
+
+  case (distance <= 31):
      place_type_id = 9
-  case 31.1...124:
+     break;
+
+  case (distance <= 124):
      place_type_id = 8
-  case 124.1...310:
+     break;
+
+  case (distance <= 310):
       place_type_id = 12
+      break;
+
   default:
       print("Does not conform")
+      break;
   }
 
-  let defaultParams = [
-      "api_key" : "2b3fe0a28145f01a2ab0a1ae3ee65c1d",
-      "bbox": bbox,
-      "place_type_id": place_type_id.toString(),
-      "format" : "json",
-      "nojsoncallback" : "1",
-  ]
+  let defaultParams = {
+    api_key : "2b3fe0a28145f01a2ab0a1ae3ee65c1d",
+    bbox: bbox,
+    place_type_id: place_type_id.toString(),
+    format : "json",
+    nojsoncallback : "1",
+  }
 
-  let url = buildUrlString(baseUrl: baseUrl, params: defaultParams) as! URL
+  return defaultParams;
+}
+
+export const fetchPlacesFromBB = (bbox, distance) => {
+  let baseUrl = "https://api.flickr.com/services/rest/?method=flickr.places.placesForBoundingBox"
+  let params = getPlaceParams(bbox, distance);
+
+  axios.get(baseUrl, {
+    params
+  }).then( res => console.warn(res) )
 }

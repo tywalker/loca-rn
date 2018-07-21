@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
 import { Geolocation } from 'react-native';
-import { getBoundingBoxFromGeo } from './src/services/api';
+import { getBoundingBoxFromGeo, fetchPlacesFromBB } from './src/services/api';
 
 import Locations from './src/components/locations/Locations';
 
@@ -21,7 +21,9 @@ export default class App extends Component<Props> {
     navigator.geolocation.requestAuthorization();
     navigator.geolocation.getCurrentPosition( ({ coords }) => {
       const { latitude, longitude } = coords;
-      getBoundingBoxFromGeo(latitude, longitude, 5);
+      let bbox = getBoundingBoxFromGeo(latitude, longitude, 5);
+
+      fetchPlacesFromBB(bbox, 5.0);
     });
   }
 
