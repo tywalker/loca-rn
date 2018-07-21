@@ -64,7 +64,7 @@ export const fetchPlacesFromBB = (bbox, distance) => {
   let baseUrl = "https://api.flickr.com/services/rest/?method=flickr.places.placesForBoundingBox"
   let params = getPlaceParams(bbox, distance);
 
-  axios.get(baseUrl, {
-    params
-  }).then( res => console.warn(res) )
+  return axios.get(baseUrl, { params })
+    .then( res => res )
+    .catch( error => error )
 }

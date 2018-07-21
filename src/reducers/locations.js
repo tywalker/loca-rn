@@ -21,18 +21,20 @@ const locations = (state = {
 }, action) => {
   switch (action.type) {
     case LAT_LON:
-    console.warn(action);
       return {
         ...state,
         lat: action.lat,
         lon: action.lon
       }
     case LOCATIONS_FAILURE:
+      console.warn(action);
       return {
         ...state,
         isfetching: true,
+        error: action.error
       }
     case LOCATIONS_SUCCESS:
+      console.warn(action)
       return {
         ...state,
         isfetching: false,

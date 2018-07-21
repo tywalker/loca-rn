@@ -1,5 +1,4 @@
 import { fetchPlacesFromBB } from '../services/api';
-
 export const LAT_LON = "LAT_LON";
 export const LOCATIONS_REQUEST = "LOCATIONS_REQUEST";
 export const LOCATIONS_FAILURE = "LOCATIONS_FAILURE";
@@ -12,10 +11,9 @@ export const latLon = (lat, lon) => {
     lon
   }
 }
-export const locationsSuccess = locations => {
+export const locationsSuccess = places => {
   return {
     type: LOCATIONS_SUCCESS,
-    isfetching,
     places
   }
 };
@@ -23,7 +21,6 @@ export const locationsSuccess = locations => {
 export const locationsFailure = error => {
   return {
     type: LOCATIONS_FAILURE,
-    isfetching,
     error
   }
 };
@@ -34,7 +31,7 @@ export const locationsFailure = error => {
 export const locationsRequest = (bbox, distance) => {
   return function(dispatch) {
     fetchPlacesFromBB(bbox, distance)
-      .then( res => dispatch(locationsSuccess(res)))
-      .catch( error => console.log(error));
+      .then( res => dispatch(locationsSuccess(res)) )
+      .catch( error => dispatch(locationsFailure(error)) );
   }
 };
