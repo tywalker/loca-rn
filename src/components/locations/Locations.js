@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { connect } from 'react-redux';
+import { getBoundingBoxFromGeo } from '../../services/api';
 
-import { fetchExample } from '../../services/api';
+import { locationsRequest } from '../../actions/locations';
 
 class Locations extends Component {
   componentDidMount() {
-    fetchExample();
+    const { dispatch, lat, lon } = this.props;
+
+    bbox = getBoundingBoxFromGeo(lat, lon, 5.0);
+
+    dispatch(locationsRequest(bbox, 5.0));
   }
 
   render() {
@@ -75,4 +81,12 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Locations;
+function mapStateToProps(state) {
+  return {
+    places: state.locations.places,
+    lat: state.locations.lat,
+    lon: state.locations.lon
+  }
+}
+
+export default connect(mapStateToProps)(Locations);

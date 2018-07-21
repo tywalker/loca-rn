@@ -45,7 +45,7 @@ export const getPlaceParams = (bbox, distance) => {
       break;
 
   default:
-      print("Does not conform")
+      console.log("Does not conform");
       break;
   }
 

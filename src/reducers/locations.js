@@ -1,5 +1,10 @@
 import { combineReducers } from 'redux';
-import { LOCATIONS_SUCCESS, LOCATIONS_FAILURE, LOCATIONS_REQUEST } from '../actions/locations';
+import {
+  LAT_LON,
+  LOCATIONS_SUCCESS,
+  LOCATIONS_FAILURE,
+  LOCATIONS_REQUEST
+} from '../actions/locations';
 
 const initialviews = { view: 'loading', scrollable: true };
 
@@ -15,6 +20,13 @@ const locations = (state = {
   locations: []
 }, action) => {
   switch (action.type) {
+    case LAT_LON:
+    console.warn(action);
+      return {
+        ...state,
+        lat: action.lat,
+        lon: action.lon
+      }
     case LOCATIONS_FAILURE:
       return {
         ...state,
@@ -24,7 +36,7 @@ const locations = (state = {
       return {
         ...state,
         isfetching: false,
-        locations: action.locations,
+        places: action.places,
       }
     default:
       return state
