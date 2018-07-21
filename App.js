@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Platform, StyleSheet, View } from 'react-native';
+import { Geolocation } from 'react-native';
+import { getBoundingBoxFromGeo } from './src/services/api';
 
 import Locations from './src/components/locations/Locations';
 
@@ -15,6 +17,18 @@ const instructions = Platform.select({
 type Props = {};
 
 export default class App extends Component<Props> {
+  componentDidMount() {
+    navigator.geolocation.requestAuthorization();
+    navigator.geolocation.getCurrentPosition( ({ coords }) => {
+      const { latitude, longitude } = coords;
+      getBoundingBoxFromGeo(latitude, longitude, 5);
+    });
+  }
+
+  requestGeoAccess() {
+    Geolocation.requestAuthorization();
+  }
+
   render() {
     return (
       <View style={ styles.container }>
