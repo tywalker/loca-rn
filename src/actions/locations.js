@@ -10,13 +10,6 @@ export const locationsSuccess = locations => {
   }
 };
 
-export const locationsRequest = () => {
-  return {
-    type: LOCATIONS_REQUEST,
-    isfetching
-  }
-};
-
 export const locationsFailure = error => {
   return {
     type: LOCATIONS_FAILURE,
@@ -32,10 +25,13 @@ export function locationsRequest(bbox, distance) {
   return function(dispatch, getState) {
 
     fetchPlacesFromBB(bbox, distance)
-      .then(() => {
-        dispatch(postSmsSuccess(false));
+      .then(( req ) => {
+        dispatch(locationsSuccess(req));
       })
-      .catch( error => console.log("There was an error in actions/chatview sendMessage: " + JSON.stringify(error)));
+      .catch(( error ) => {
+        console.log("There was an error in actions/chatview sendMessage: " + JSON.stringify(error)))
+        dispatch(locationsFailure(error));
+      };
 
   }
 }
