@@ -1,19 +1,26 @@
-import { fetchMessages, fetchMessagesStarted } from "./messages";
-import { postSms } from "../services/api";
-
-export const SET_CHAT_TEXT = "SET_CHAT_TEXT";
-export const POST_SMS_SUCCESS = "POST_SMS_SUCCESS";
+export const LOCATIONS_REQUEST = "LOCATIONS_REQUEST";
+export const LOCATIONS_FAILURE = "LOCATIONS_FAILURE";
+export const LOCATIONS_SUCCESS = "LOCATIONS_SUCCESS";
 
 export const locationsSuccess = locations => {
   return {
     type: LOCATIONS_SUCCESS,
-    text
+    isfetching,
+    locations
+  }
+};
+
+export const locationsRequest = () => {
+  return {
+    type: LOCATIONS_REQUEST,
+    isfetching
   }
 };
 
 export const locationsFailure = error => {
   return {
     type: LOCATIONS_FAILURE,
+    isfetching,
     error
   }
 };
@@ -21,26 +28,14 @@ export const locationsFailure = error => {
 /**
  * Thunks
  */
-export function sendMessage(contactId, daContactId, phoneId, phoneNumber, text) {
+export function locationsRequest(bbox, distance) {
   return function(dispatch, getState) {
-    if (text) {
-      let state = getState(),
-        token = state.login.token,
-        domain = state.login.domain;
 
-      // update store that insertion is happening
-      dispatch(fetchMessagesStarted());
+    fetchPlacesFromBB(bbox, distance)
+      .then(() => {
+        dispatch(postSmsSuccess(false));
+      })
+      .catch( error => console.log("There was an error in actions/chatview sendMessage: " + JSON.stringify(error)));
 
-      postSms(token, domain, daContactId, phoneNumber, text)
-        .then(() => {
-          dispatch(fetchMessages(contactId, daContactId, phoneNumber, phoneId));
-          dispatch(setChatInputText(''));
-        })
-        .then(() => {
-          dispatch(postSmsSuccess(false));
-        })
-        .catch( error => console.log("There was an error in actions/chatview sendMessage: " + JSON.stringify(error)));
-
-    }
   }
 }

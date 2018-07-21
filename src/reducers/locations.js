@@ -1,5 +1,5 @@
 import { combinereducers } from 'redux';
-import { contact_search_success } from '../actions';
+import {  } from '../actions';
 
 const initialviews = { view: 'loading', scrollable: true };
 
@@ -7,9 +7,7 @@ function views( state = initialviews, action ) {
   switch (action.type) {
     case set_height_width:
       return {
-        ...state,
-        height: action.height,
-        width: action.width
+        ...state
       };
 
     default:
@@ -19,23 +17,19 @@ function views( state = initialviews, action ) {
 
 const locations = (state = {
   isfetching: false,
-  didinvalidate: false,
-  items: []
+  locations: []
 }, action) => {
   switch (action.type) {
-    case request_posts:
+    case locations_failure:
       return {
         ...state,
         isfetching: true,
-        didinvalidate: false
       }
-    case receive_posts:
+    case locations_success:
       return {
         ...state,
         isfetching: false,
-        didinvalidate: false,
-        items: action.posts,
-        lastupdated: action.receivedat
+        locations: action.locations,
       }
     default:
       return state
