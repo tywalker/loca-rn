@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import Locations from './locations/Locations';
 
@@ -20,3 +20,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#F5FCFF',
   },
 });
+
+export default Loca;

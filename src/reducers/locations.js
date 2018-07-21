@@ -1,16 +1,11 @@
-import { combinereducers } from 'redux';
-import {  } from '../actions';
+import { combineReducers } from 'redux';
+import { LOCATIONS_SUCCESS, LOCATIONS_FAILURE, LOCATIONS_REQUEST } from '../actions/locations';
 
 const initialviews = { view: 'loading', scrollable: true };
 
 function views( state = initialviews, action ) {
   switch (action.type) {
-    case set_height_width:
-      return {
-        ...state
-      };
-
-    default:
+  default:
       return state
   }
 }
@@ -20,12 +15,12 @@ const locations = (state = {
   locations: []
 }, action) => {
   switch (action.type) {
-    case locations_failure:
+    case LOCATIONS_FAILURE:
       return {
         ...state,
         isfetching: true,
       }
-    case locations_success:
+    case LOCATIONS_SUCCESS:
       return {
         ...state,
         isfetching: false,
@@ -36,7 +31,7 @@ const locations = (state = {
   }
 };
 
-const rootreducer = combinereducers({
+const rootreducer = combineReducers({
   views,
   locations,
 });

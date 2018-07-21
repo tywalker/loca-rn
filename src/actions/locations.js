@@ -21,17 +21,3 @@ export const locationsFailure = error => {
 /**
  * Thunks
  */
-export function locationsRequest(bbox, distance) {
-  return function(dispatch, getState) {
-
-    fetchPlacesFromBB(bbox, distance)
-      .then(( req ) => {
-        dispatch(locationsSuccess(req));
-      })
-      .catch(( error ) => {
-        console.log("There was an error in actions/chatview sendMessage: " + JSON.stringify(error)))
-        dispatch(locationsFailure(error));
-      };
-
-  }
-}
