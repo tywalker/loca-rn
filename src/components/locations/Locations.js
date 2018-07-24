@@ -17,6 +17,7 @@ class Locations extends Component {
 
   renderPlaces() {
     const { places } = this.props;
+
     return places.map( (place, index) => {
       return (
         <View key={index} style={ styles.location }>
@@ -33,10 +34,7 @@ class Locations extends Component {
   }
 
   render() {
-    let exArr = [];
-    for (var i = 0; i < 20; i++) {
-      exArr.push(i);
-    }
+    // Make virtualList
     return (
       <View style={styles.container}>
         <View style={ styles.topNavigation }>
@@ -60,24 +58,25 @@ const styles = StyleSheet.create({
   },
   topNavigation: {
     flex: 0.2,
-    backgroundColor: 'pink'
+    backgroundColor: '#f0f0f0'
   },
   mainViewContainer: {
     flex: 0.8,
-    backgroundColor: 'blue',
+    backgroundColor: '#f8f8f8',
     alignItems: 'center'
   },
   locationsContainer: {
     flex: 1,
     minWidth: '90%',
     maxWidth: '90%',
-    backgroundColor: 'green'
+    backgroundColor: '#f9f9f9'
   },
   location: {
     height: 300,
   },
   locaLabel: {
-
+    color: "#555",
+    fontSize: 16
   },
   locaImageContainer: {
     minHeight: 150,
