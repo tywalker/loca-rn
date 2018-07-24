@@ -6,12 +6,13 @@ import { getBoundingBoxFromGeo } from '../../services/api';
 import { locationsRequest } from '../../actions/locations';
 
 class Locations extends Component {
-  componentDidMount() {
+
+  componentDidUpdate(prevProps) {
     const { dispatch, lat, lon } = this.props;
-
-    bbox = getBoundingBoxFromGeo(lat, lon, 5.0);
-
-    dispatch(locationsRequest(bbox, 5.0));
+    if (prevProps.lat !== lat && prevProps.lon !== lon) {
+      let bbox = getBoundingBoxFromGeo(lat, lon, 5.0);
+      dispatch(locationsRequest(bbox, 5.0));
+    }
   }
 
   render() {

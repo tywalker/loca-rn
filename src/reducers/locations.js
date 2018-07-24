@@ -27,14 +27,12 @@ const locations = (state = {
         lon: action.lon
       }
     case LOCATIONS_FAILURE:
-      console.warn(action);
       return {
         ...state,
         isfetching: true,
         error: action.error
       }
     case LOCATIONS_SUCCESS:
-      console.warn(action)
       return {
         ...state,
         isfetching: false,
