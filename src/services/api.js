@@ -6,7 +6,6 @@ export const fetchExample = () => {
 }
 
 export const getBoundingBoxFromGeo = (lat, lon, diameter) => {
-  console.warn(lat, lon, diameter)
   let latInSeconds = diameter * 0.5 / 69;
   let lonInSeconds = diameter * 0.5 / (30.9 * Math.cos(51.503364051));
 
@@ -72,15 +71,33 @@ export const fetchPlacesFromBB = (bbox, distance) => {
 
 export const fetchPlaceChildren = (parentJSON) => {
   let baseUrl = "https://api.flickr.com/services/rest/?method=flickr.places.getChildrenWithPhotosPublic";
-  let defaultParams = {
-    api_key : "2b3fe0a28145f01a2ab0a1ae3ee65c1d",
-    format : "json",
-    nojsoncallback : "1",
-  }
 
-  console.warn(parentJSON);
+  console.warn(parentJSON)
+  parentJSON.places.place.map( place => {
+    let params = {
+      api_key : "2b3fe0a28145f01a2ab0a1ae3ee65c1d",
+      place_id: place.place_id,
+      format : "json",
+      nojsoncallback : "1",
+    }
 
-  // return axios.get(baseUrl, { params })
-  //   .then( res => res )
-  //   .catch( error => error )
+    return axios.get(baseUrl, { params })
+      .then( res => console.warn("hm") )
+      .catch( error => error );
+  });
+}
+
+export const fetchPhotos = (childrenJSON) => {
+  let baseUrl = "https://api.flickr.com/services/rest/?method=flickr.photos.search"
+  let params = [
+    "api_key" : "2b3fe0a28145f01a2ab0a1ae3ee65c1d",
+    "sort" : "interestingness-desc",
+    "content_type" : "1",
+    "place_id" : childrenJSON.place_id,
+    "has_geo" : "1",
+    "per_page" : "10",
+    "format" : "json",
+    "nojsoncallback" : "1",
+    "extras" : "geo",
+  ]
 }
