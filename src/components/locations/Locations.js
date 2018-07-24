@@ -34,7 +34,7 @@ class Locations extends Component {
   }
 
   render() {
-    // Make virtualList
+    // TODO: Make virtualList
     return (
       <View style={styles.container}>
         <View style={ styles.topNavigation }>
