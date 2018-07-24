@@ -13,8 +13,23 @@ class Locations extends Component {
       let bbox = getBoundingBoxFromGeo(lat, lon, 5.0);
       dispatch(locationsRequest(bbox, 5.0));
     }
+  }
 
-    console.warn(places.length, places);
+  renderPlaces() {
+    const { places } = this.props;
+    return places.map( (place, index) => {
+      return (
+        <View key={index} style={ styles.location }>
+          <Text style={ styles.locaLabel }>{ place.woe_name }</Text>
+          <View style={ styles.locaImageContainer }>
+            <Image
+              source={{ uri: "https://placeimg.com/200/150/any" }}
+              style={{ height: 150, width: 200 }}
+            />
+          </View>
+        </View>
+      );
+    });
   }
 
   render() {
@@ -29,21 +44,7 @@ class Locations extends Component {
         </View>
         <View style={ styles.mainViewContainer }>
           <ScrollView style={ styles.locationsContainer }>
-            {
-              exArr.map( (item, index) => {
-                return (
-                  <View key={index} style={ styles.location }>
-                    <Text style={ styles.locaLabel }>Label { item }</Text>
-                    <View style={ styles.locaImageContainer }>
-                      <Image
-                        source={{ uri: "https://placeimg.com/200/150/any" }}
-                        style={{ height: 150, width: 200 }}
-                      />
-                    </View>
-                  </View>
-                )
-              })
-            }
+            { this.renderPlaces() }
           </ScrollView>
         </View>
       </View>
