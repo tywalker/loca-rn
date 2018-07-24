@@ -8,11 +8,13 @@ import { locationsRequest } from '../../actions/locations';
 class Locations extends Component {
 
   componentDidUpdate(prevProps) {
-    const { dispatch, lat, lon } = this.props;
+    const { dispatch, lat, lon, places } = this.props;
     if (prevProps.lat !== lat && prevProps.lon !== lon) {
       let bbox = getBoundingBoxFromGeo(lat, lon, 5.0);
       dispatch(locationsRequest(bbox, 5.0));
     }
+
+    console.warn(places.length, places);
   }
 
   render() {

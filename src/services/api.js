@@ -64,27 +64,23 @@ export const fetchPlacesFromBB = (bbox, distance) => {
   let baseUrl = "https://api.flickr.com/services/rest/?method=flickr.places.placesForBoundingBox"
   let params = getPlaceParams(bbox, distance);
 
-  return axios.get(baseUrl, { params })
-    .then( res => fetchPlaceChildren(res.data) )
-    .catch( error => error )
+  return axios.get(baseUrl, { params });
 }
 
 export const fetchPlaceChildren = (parentJSON) => {
   let baseUrl = "https://api.flickr.com/services/rest/?method=flickr.places.getChildrenWithPhotosPublic";
 
-  console.warn(parentJSON)
-  parentJSON.places.place.map( place => {
-    let params = {
-      api_key : "2b3fe0a28145f01a2ab0a1ae3ee65c1d",
-      place_id: place.place_id,
-      format : "json",
-      nojsoncallback : "1",
-    }
-
-    return axios.get(baseUrl, { params })
-      .then( res => console.warn("hm") )
-      .catch( error => error );
-  });
+  return axios.all( parentJSON.places.place.map( place => {
+      let params = {
+        api_key : "2b3fe0a28145f01a2ab0a1ae3ee65c1d",
+        place_id: place.place_id,
+        format : "json",
+        nojsoncallback : "1",
+      }
+      return axios.get(baseUrl, { params })
+        .then( res => res.data.places.place )
+        .catch( error => error );
+  }));
 }
 
 export const fetchPhotos = (childrenJSON) => {

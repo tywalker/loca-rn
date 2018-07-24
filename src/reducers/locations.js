@@ -17,7 +17,7 @@ function views( state = initialviews, action ) {
 
 const locations = (state = {
   isfetching: false,
-  locations: []
+  places: [],
 }, action) => {
   switch (action.type) {
     case LAT_LON:
@@ -36,7 +36,7 @@ const locations = (state = {
       return {
         ...state,
         isfetching: false,
-        places: action.places,
+        places: state.places.concat(action.places),
       }
     default:
       return state
