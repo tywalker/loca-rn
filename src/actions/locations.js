@@ -12,7 +12,7 @@ export const IMAGES_REQUEST = "IMAGES_REQUEST";
 export const IMAGES_FAILURE = "IMAGES_FAILURE";
 export const IMAGES_SUCCESS = "IMAGES_SUCCESS";
 
-import { normalizePlaces } from '../services/normalize';
+import { normalizePlaces, normalizeImages } from '../services/normalize';
 
 export const latLon = (lat, lon) => {
   return {
@@ -75,10 +75,11 @@ export const locationsRequest = (bbox, distance) => {
 export const imagesRequest = (places) => {
   return function(dispatch) {
     places.map( place => {
-      console.warn(place.id);
       fetchImages(place.id)
         .then( res => {
-          console.warn(res.data);
+          let resArr = res.data.photos.photo;
+          let nImages = normalizeImages(resArr);
+          console.log(nImages);
           // dispatch(imagesSuccess(res))
         })
         .catch( error => dispatch(imagesFailure(error)) );

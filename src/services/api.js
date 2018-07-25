@@ -94,7 +94,7 @@ export const fetchImages = (placeId) => {
     per_page : "10",
     format : "json",
     nojsoncallback : "1",
-    extras : "geo"
+    extras : "geo",
   }
 
   return axios.get(url, { params });

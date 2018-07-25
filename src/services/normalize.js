@@ -35,3 +35,30 @@ export const normalizePlaces = (places) => {
 
   return nPlacesArr;
 }
+
+export const normalizeImages = (images) => {
+  let nImages = {};
+
+  images.map( image => {
+    let urlSm = `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}_n.jpg`
+    let urlMed = `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}_z.jpg`
+    nImages[image.place_id] = [];
+
+    const nImage = {
+      id: image.id,
+      title: image.title,
+      secret: image.secret,
+      farmId: image.farm,
+      coords: {
+        lat: image.latitude,
+        lon: image.longitude
+      },
+      urlSm: urlSm,
+      urlMed: urlMed
+    }
+
+    nImages[image.place_id] = nImages[image.place_id].concat(nImage);
+  });
+
+  return nImages;
+}
