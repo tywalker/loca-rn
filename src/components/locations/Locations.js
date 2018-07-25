@@ -3,7 +3,7 @@ import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { getBoundingBoxFromGeo } from '../../services/api';
 
-import { locationsRequest } from '../../actions/locations';
+import { locationsRequest, imagesRequest } from '../../actions/locations';
 
 class Locations extends Component {
 
@@ -14,6 +14,10 @@ class Locations extends Component {
       let bbox = getBoundingBoxFromGeo(lat, lon, 5.0);
 
       dispatch(locationsRequest(bbox, 5.0));
+    }
+
+    if (places.length > 0) {
+      dispatch(imagesRequest(places));
     }
   }
 

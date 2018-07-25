@@ -1,4 +1,9 @@
-import { fetchPlacesFromBB, fetchPlaceChildren } from '../services/api';
+import {
+  fetchPlacesFromBB,
+  fetchPlaceChildren,
+  fetchImages
+} from '../services/api';
+
 export const LAT_LON = "LAT_LON";
 export const LOCATIONS_REQUEST = "LOCATIONS_REQUEST";
 export const LOCATIONS_FAILURE = "LOCATIONS_FAILURE";
@@ -67,10 +72,17 @@ export const locationsRequest = (bbox, distance) => {
   }
 };
 
-export const imagesRequest = () => {
+export const imagesRequest = (places) => {
   return function(dispatch) {
-    funcThing()
-      .then()
-      .catch( error => dispatch(imagesFailure(error)) );
+    places.map( place => {
+      console.warn(place.id);
+      fetchImages(place.id)
+        .then( res => {
+          console.warn(res.data);
+          // dispatch(imagesSuccess(res))
+        })
+        .catch( error => dispatch(imagesFailure(error)) );
+
+    })
   }
-}
+};

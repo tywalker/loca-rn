@@ -61,7 +61,7 @@ export const getPlaceParams = (bbox, distance) => {
 }
 
 export const fetchPlacesFromBB = (bbox, distance) => {
-  let baseUrl = "https://api.flickr.com/services/rest/?method=flickr.places.placesForBoundingBox"
+  let baseUrl = "https://api.flickr.com/services/rest/?method=flickr.places.placesForBoundingBox";
   let params = getPlaceParams(bbox, distance);
 
   return axios.get(baseUrl, { params });
@@ -83,17 +83,19 @@ export const fetchPlaceChildren = (parentJSON) => {
   }));
 }
 
-export const fetchPhotos = (childrenJSON) => {
-  let baseUrl = "https://api.flickr.com/services/rest/?method=flickr.photos.search"
-  let params = [
-    "api_key" : "2b3fe0a28145f01a2ab0a1ae3ee65c1d",
-    "sort" : "interestingness-desc",
-    "content_type" : "1",
-    "place_id" : childrenJSON.place_id,
-    "has_geo" : "1",
-    "per_page" : "10",
-    "format" : "json",
-    "nojsoncallback" : "1",
-    "extras" : "geo",
-  ]
+export const fetchImages = (placeId) => {
+  let url = "https://api.flickr.com/services/rest/?method=flickr.photos.search";
+  let params = {
+    api_key : "2b3fe0a28145f01a2ab0a1ae3ee65c1d",
+    sort : "interestingness-desc",
+    content_type : "1",
+    place_id : placeId,
+    has_geo : "1",
+    per_page : "10",
+    format : "json",
+    nojsoncallback : "1",
+    extras : "geo"
+  }
+
+  return axios.get(url, { params });
 }
