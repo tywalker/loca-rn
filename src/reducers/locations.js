@@ -3,7 +3,10 @@ import {
   LAT_LON,
   LOCATIONS_SUCCESS,
   LOCATIONS_FAILURE,
-  LOCATIONS_REQUEST
+  LOCATIONS_REQUEST,
+  IMAGES_SUCCESS,
+  IMAGES_FAILURE,
+  IMAGES_REQUEST
 } from '../actions/locations';
 
 const initialviews = { view: 'loading', scrollable: true };
@@ -37,6 +40,40 @@ const locations = (state = {
         ...state,
         isfetching: false,
         places: state.places.concat(action.places),
+      }
+    case IMAGES_FAILURE:
+      return {
+        ...state,
+        isfetching: true,
+        error: action.error
+      }
+    case IMAGES_SUCCESS:
+      return {
+        ...state,
+        isfetching: false,
+        images: action.images,
+      }
+    default:
+      return state
+  }
+};
+
+const images = (state = {
+  isfetching: false,
+  images: [],
+}, action) => {
+  switch (action.type) {
+    case IMAGES_FAILURE:
+      return {
+        ...state,
+        isfetching: true,
+        error: action.error
+      }
+    case IMAGES_SUCCESS:
+      return {
+        ...state,
+        isfetching: false,
+        images: action.images,
       }
     default:
       return state

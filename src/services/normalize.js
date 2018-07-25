@@ -5,9 +5,8 @@ export const normalizePlaces = (places) => {
 
   places.map( place => {
     let dupe = idsArr.indexOf(place.place_id);
-
     // is not duplicate add to nPlacesArr
-    if (dupe < 0) {
+    if (dupe === -1) {
       const nPlace = {
         id: place.place_id,
         woe: {
