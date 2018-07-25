@@ -60,7 +60,7 @@ const locations = (state = {
 
 const images = (state = {
   isfetching: false,
-  images: [],
+  images: {},
 }, action) => {
   switch (action.type) {
     case IMAGES_FAILURE:
@@ -73,7 +73,7 @@ const images = (state = {
       return {
         ...state,
         isfetching: false,
-        images: action.images,
+        images: Object.assign(action.images, state.images.images),
       }
     default:
       return state
@@ -83,6 +83,7 @@ const images = (state = {
 const rootreducer = combineReducers({
   views,
   locations,
+  images
 });
 
 export default rootreducer;

@@ -8,15 +8,15 @@ import { locationsRequest, imagesRequest } from '../../actions/locations';
 class Locations extends Component {
 
   componentDidUpdate(prevProps) {
-    const { dispatch, lat, lon, places } = this.props;
+    const { dispatch, lat, lon, places, images } = this.props;
 
     if (prevProps.lat !== lat && prevProps.lon !== lon) {
       let bbox = getBoundingBoxFromGeo(lat, lon, 5.0);
 
       dispatch(locationsRequest(bbox, 5.0));
     }
-
     if (places.length > 0) {
+      console.log(images)
       dispatch(imagesRequest(places));
     }
   }
@@ -97,7 +97,8 @@ function mapStateToProps(state) {
   return {
     places: state.locations.places,
     lat: state.locations.lat,
-    lon: state.locations.lon
+    lon: state.locations.lon,
+    images: state.images.images
   }
 }
 

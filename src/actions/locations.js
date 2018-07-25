@@ -76,11 +76,12 @@ export const imagesRequest = (places) => {
   return function(dispatch) {
     places.map( place => {
       fetchImages(place.id)
+        .then( res => res.data )
         .then( res => {
-          let resArr = res.data.photos.photo;
+          let resArr = res.photos.photo;
           let nImages = normalizeImages(resArr);
-          console.log(nImages);
-          // dispatch(imagesSuccess(res))
+
+          dispatch(imagesSuccess(nImages));
         })
         .catch( error => dispatch(imagesFailure(error)) );
 
