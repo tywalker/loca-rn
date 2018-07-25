@@ -4,6 +4,8 @@ export const LOCATIONS_REQUEST = "LOCATIONS_REQUEST";
 export const LOCATIONS_FAILURE = "LOCATIONS_FAILURE";
 export const LOCATIONS_SUCCESS = "LOCATIONS_SUCCESS";
 
+import { normalizePlaces } from '../services/normalize';
+
 export const latLon = (lat, lon) => {
   return {
     type: LAT_LON,
@@ -33,7 +35,12 @@ export const locationsRequest = (bbox, distance) => {
     fetchPlacesFromBB(bbox, distance)
       .then( res => res.data )
       .then( res => fetchPlaceChildren(res) )
-      .then( res => res.map( places => dispatch(locationsSuccess(places)) ) )
+      .then( res => {
+        res.map( places => {
+          let nPlaces = normalizePlaces(places);
+          dispatch(locationsSuccess(nPlaces));
+        })
+      })
       .catch( error => dispatch(locationsFailure(error)) );
   }
 };

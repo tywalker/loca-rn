@@ -23,7 +23,7 @@ class Locations extends Component {
       id={ index }
       style={ styles.location }
     >
-      <Text style={ styles.locaLabel }>{ item.woe_name }</Text>
+      <Text style={ styles.locaLabel }>{ item.woe.name }</Text>
       <View style={ styles.locaImageContainer }>
         <Image
           source={{ uri: "https://placeimg.com/200/150/any" }}
@@ -36,6 +36,7 @@ class Locations extends Component {
 
   render() {
     const { places } = this.props;
+
     return (
       <View style={styles.container}>
         <View style={ styles.topNavigation }></View>
