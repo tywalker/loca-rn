@@ -9,12 +9,13 @@ class Locations extends Component {
 
   componentDidUpdate(prevProps) {
     const { dispatch, lat, lon, places } = this.props;
+
     if (prevProps.lat !== lat && prevProps.lon !== lon) {
       let bbox = getBoundingBoxFromGeo(lat, lon, 5.0);
+
       dispatch(locationsRequest(bbox, 5.0));
     }
   }
-
 
   _keyExtractor = ( item, index ) => item.id;
 
