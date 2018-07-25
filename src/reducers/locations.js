@@ -48,4 +48,4 @@ const rootreducer = combineReducers({
   locations,
 });
 
-export default rootreducer
+export default rootreducer;

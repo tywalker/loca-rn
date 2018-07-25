@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { getBoundingBoxFromGeo } from '../../services/api';
 
@@ -15,35 +15,38 @@ class Locations extends Component {
     }
   }
 
-  renderPlaces() {
-    const { places } = this.props;
 
-    return places.map( (place, index) => {
-      return (
-        <View key={index} style={ styles.location }>
-          <Text style={ styles.locaLabel }>{ place.woe_name }</Text>
-          <View style={ styles.locaImageContainer }>
-            <Image
-              source={{ uri: "https://placeimg.com/200/150/any" }}
-              style={{ height: 150, width: 200 }}
-            />
-          </View>
-        </View>
-      );
-    });
-  }
+  _keyExtractor = ( item, index ) => item.id;
+
+  _renderItem = ({ item, index }) => (
+    <View
+      id={ index }
+      style={ styles.location }
+    >
+      <Text style={ styles.locaLabel }>{ item.woe_name }</Text>
+      <View style={ styles.locaImageContainer }>
+        <Image
+          source={{ uri: "https://placeimg.com/200/150/any" }}
+          style={{ height: 150, width: 200 }}
+        />
+      </View>
+    </View>
+  );
+
 
   render() {
-    // TODO: Make virtualList
+    const { places } = this.props;
     return (
       <View style={styles.container}>
-        <View style={ styles.topNavigation }>
-
-        </View>
+        <View style={ styles.topNavigation }></View>
         <View style={ styles.mainViewContainer }>
-          <ScrollView style={ styles.locationsContainer }>
-            { this.renderPlaces() }
-          </ScrollView>
+
+          <FlatList
+            data={ places }
+            keyExtractor={ this._keyExtractor }
+            renderItem={ this._renderItem }
+          />
+
         </View>
       </View>
     );
