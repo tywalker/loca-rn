@@ -32,10 +32,9 @@ class Locations extends Component {
       <Text style={ styles.locaLabel }>{ item.woe.name }</Text>
       <View style={ styles.locaImageContainer }>
         <Image
-          source={{ uri: "https://placeimg.com/200/150/any" }}
           style={{ height: 150, width: 200 }}
         />
-      { console.log(item.photos) }
+      { console.log(item.photos.displayPhotos[`${item.id}`]) }
       </View>
     </View>
   );
@@ -53,6 +52,7 @@ class Locations extends Component {
               ? <View></View>
               : <FlatList
                   data={ places }
+                  extraData={ images }
                   keyExtractor={ this._keyExtractor }
                   renderItem={ this._renderItem }
                 />

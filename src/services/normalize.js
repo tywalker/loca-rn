@@ -36,9 +36,9 @@ export const normalizePlaces = (places) => {
   return nPlacesArr;
 }
 
-export const normalizeImages = (images) => {
+export const normalizeImages = (images, placeId) => {
   let nImages = {};
-  nImages[images[0].place_id] = [];
+  nImages[placeId] = [];
 
   images.map( image => {
     let url = `https://farm${image.farm}.staticflickr.com/${image.server}/${image.id}_${image.secret}.jpg`
@@ -59,7 +59,7 @@ export const normalizeImages = (images) => {
       url: url
     }
 
-    nImages[images[0].place_id] = nImages[images[0].place_id].concat(nImage);
+    nImages[placeId] = nImages[placeId].concat(nImage);
   });
 
   return nImages;

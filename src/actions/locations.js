@@ -74,22 +74,32 @@ export const locationsRequest = (bbox, distance) => {
 
 export const imagesRequest = (places) => {
   return function(dispatch) {
+
     let updatedPlaces = [];
+    let imageObj = {};
+
     places.map( place => {
       fetchImages(place.id)
         .then( res => res.data )
         .then( res => {
           let resArr = res.photos.photo;
-          let nImages = normalizeImages(resArr);
+          let nImages = normalizeImages(resArr, place.id);
           let updatedPlace = place;
 
           updatedPlace.photos.displayPhotos = nImages;
           updatedPlaces = updatedPlaces.concat(updatedPlace);
 
-          dispatch(imagesSuccess(nImages));
+          dispatch(locationsSuccess(updatedPlaces))
+
+          return new Promise.resolve(nImages);
         })
-        .then( () => dispatch(locationsSuccess(updatedPlaces)) )
-        .catch( error => dispatch(imagesFailure(error)) );
+        .then( (data) => {
+          dispatch(imagesSuccess(data));
+        })
+        .catch( error => {
+          console.log(error);
+          dispatch(imagesFailure(error))
+        });
 
     })
   }
