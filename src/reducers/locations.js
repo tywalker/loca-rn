@@ -39,7 +39,7 @@ const locations = (state = {
       return {
         ...state,
         isfetching: false,
-        places: state.places.concat(action.places),
+        places: action.places,
       }
     case IMAGES_FAILURE:
       return {

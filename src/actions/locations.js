@@ -74,15 +74,21 @@ export const locationsRequest = (bbox, distance) => {
 
 export const imagesRequest = (places) => {
   return function(dispatch) {
+    let updatedPlaces = [];
     places.map( place => {
       fetchImages(place.id)
         .then( res => res.data )
         .then( res => {
           let resArr = res.photos.photo;
           let nImages = normalizeImages(resArr);
+          let updatedPlace = place;
+
+          updatedPlace.photos.displayPhotos = nImages;
+          updatedPlaces = updatedPlaces.concat(updatedPlace);
 
           dispatch(imagesSuccess(nImages));
         })
+        .then( () => dispatch(locationsSuccess(updatedPlaces)) )
         .catch( error => dispatch(imagesFailure(error)) );
 
     })

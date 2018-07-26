@@ -5,6 +5,8 @@ import { getBoundingBoxFromGeo } from '../../services/api';
 
 import { locationsRequest, imagesRequest } from '../../actions/locations';
 
+import { isEmpty } from '../../helpers/helpers';
+
 class Locations extends Component {
 
   componentDidUpdate(prevProps) {
@@ -15,8 +17,7 @@ class Locations extends Component {
 
       dispatch(locationsRequest(bbox, 5.0));
     }
-    if (places.length > 0) {
-      console.log(images)
+    if (places.length > 0 && isEmpty(images)) {
       dispatch(imagesRequest(places));
     }
   }
@@ -34,25 +35,28 @@ class Locations extends Component {
           source={{ uri: "https://placeimg.com/200/150/any" }}
           style={{ height: 150, width: 200 }}
         />
+      { console.log(item.photos) }
       </View>
     </View>
   );
 
 
   render() {
-    const { places } = this.props;
+    const { places, images } = this.props;
 
     return (
       <View style={styles.container}>
         <View style={ styles.topNavigation }></View>
         <View style={ styles.mainViewContainer }>
-
-          <FlatList
-            data={ places }
-            keyExtractor={ this._keyExtractor }
-            renderItem={ this._renderItem }
-          />
-
+          {
+            isEmpty(images)
+              ? <View></View>
+              : <FlatList
+                  data={ places }
+                  keyExtractor={ this._keyExtractor }
+                  renderItem={ this._renderItem }
+                />
+          }
         </View>
       </View>
     );
