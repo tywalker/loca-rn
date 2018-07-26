@@ -36,23 +36,12 @@ const locations = (state = {
         error: action.error
       }
     case LOCATIONS_SUCCESS:
+    console.log("places", state.places)
       return {
         ...state,
         isfetching: false,
         places: action.places,
-      }
-    case IMAGES_FAILURE:
-      return {
-        ...state,
-        isfetching: true,
-        error: action.error
-      }
-    case IMAGES_SUCCESS:
-      return {
-        ...state,
-        isfetching: false,
-        images: action.images,
-      }
+    }
     default:
       return state
   }
@@ -73,7 +62,7 @@ const images = (state = {
       return {
         ...state,
         isfetching: false,
-        images: Object.assign(action.images, state.images.images),
+        images: Object.assign(action.images, state.images),
       }
     default:
       return state

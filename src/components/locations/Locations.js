@@ -17,7 +17,8 @@ class Locations extends Component {
 
       dispatch(locationsRequest(bbox, 5.0));
     }
-    if (places.length > 0 && isEmpty(images)) {
+    if (isEmpty(images)) {
+      console.log('fired')
       dispatch(imagesRequest(places));
     }
   }
@@ -32,9 +33,9 @@ class Locations extends Component {
       <Text style={ styles.locaLabel }>{ item.woe.name }</Text>
       <View style={ styles.locaImageContainer }>
         <Image
+          source={{ uri: item.photos.displayPhotos[`${item.id}`][0].urlSm }}
           style={{ height: 150, width: 200 }}
         />
-      { console.log(item.photos.displayPhotos[`${item.id}`]) }
       </View>
     </View>
   );

@@ -83,21 +83,25 @@ export const imagesRequest = (places) => {
         .then( res => res.data )
         .then( res => {
           let resArr = res.photos.photo;
-          let nImages = normalizeImages(resArr, place.id);
-          let updatedPlace = place;
+          if (res.photos.photo) {
+            let nImages = normalizeImages(resArr, place.id);
+            let updatedPlace = place;
 
-          updatedPlace.photos.displayPhotos = nImages;
-          updatedPlaces = updatedPlaces.concat(updatedPlace);
+            updatedPlace.photos.displayPhotos = nImages;
+            updatedPlaces = updatedPlaces.concat(updatedPlace);
 
-          dispatch(locationsSuccess(updatedPlaces))
+            dispatch(locationsSuccess(updatedPlaces))
 
-          return new Promise.resolve(nImages);
+            return new Promise.resolve(nImages);
+          }
+          else {
+            return;
+          }
         })
         .then( (data) => {
           dispatch(imagesSuccess(data));
         })
         .catch( error => {
-          console.log(error);
           dispatch(imagesFailure(error))
         });
 
