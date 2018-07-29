@@ -10,33 +10,36 @@ import { isEmpty } from '../../helpers/helpers';
 class Locations extends Component {
 
   componentDidUpdate(prevProps) {
-    const { dispatch, lat, lon, places, images } = this.props;
+    const { dispatch, lat, lon, places, images, done } = this.props;
 
     if (prevProps.lat !== lat && prevProps.lon !== lon) {
       let bbox = getBoundingBoxFromGeo(lat, lon, 5.0);
 
       dispatch(locationsRequest(bbox, 5.0));
     }
-    if (places.length > 0) {
+    if (places.length > 0 && !done) {
       dispatch(imagesRequest(places));
     }
   }
 
   _keyExtractor = ( item, index ) => item.id;
 
-  _renderItem = (item, index, images) => (
-    <View
-      key={ index }
-      style={ styles.location }
-    >
-      <Text style={ styles.locaLabel }>{ item.woe.name }</Text>
-      <View style={ styles.locaImageContainer }>
-        <Image
-          style={{ height: 150, width: 200 }}
-        />
+  _renderItem = (item, index, images) => {
+    return (
+      <View
+        key={ index }
+        style={ styles.location }
+      >
+        <Text style={ styles.locaLabel }>{ item.woe.name }</Text>
+        <View style={ styles.locaImageContainer }>
+          <Image
+            source={{ uri: images[index][item.id][0].urlSm }}
+            style={{ height: 150, width: 200 }}
+          />
+        </View>
       </View>
-    </View>
-  );
+    );
+  }
 
 
   render() {

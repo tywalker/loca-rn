@@ -63,7 +63,7 @@ const images = (state = {
       return {
         ...state,
         isfetching: false,
-        images: Object.assign(action.images, state.images),
+        images: action.images
       }
     case IMAGES_DONE:
       return {

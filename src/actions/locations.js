@@ -81,7 +81,7 @@ export const locationsRequest = (bbox, distance) => {
 
 export const buildImagePromiseArray = (places) => {
   let promiseArr = [];
-  let promises = places.map( place => {
+  let promises = places.map( (place, index) => {
     return fetchImages(place.id)
       .then( res => res.data )
       .then( res => {
@@ -89,6 +89,8 @@ export const buildImagePromiseArray = (places) => {
 
         if (res.photos.photo) {
           let nImages = normalizeImages(resArr, place.id);
+          let placeCopy = place;
+
           return nImages
         }
       })
@@ -103,7 +105,7 @@ export const imagesRequest = (places) => {
     let images = buildImagePromiseArray(places);
     Promise.all(images)
       .then( (images) => {
-        console.log("images", images)
+        dispatch(imagesSuccess(images));
         dispatch(imagesDone());
       });
   }
