@@ -66,6 +66,7 @@ class Locations extends Component {
           data={ this.placesList }
           extraData={ images }
           renderItem={ this._renderItem }
+          showsVerticalScrollIndicator={ false }
           keyExtractor={ this._keyExtractor }
           onEndReached={ ()=> this.setState({ offset: offset + 1 }) }
           onEndReachedThreshold={ 0.1 }
