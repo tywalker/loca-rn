@@ -31,12 +31,14 @@ class Locations extends Component {
 
   _keyExtractor = ( item, index ) => item.id;
 
-  _renderItem = (item, index, images) => {
+  _renderItem = ({ item }) => {
+    const { images } = this.props;
     let imageUri = images[item.id][0].urlSm;
 
+    console.log(item)
     return (
       <View
-        key={ index }
+        key={ item.id }
         style={ styles.location }
       >
         <Text style={ styles.locaLabel }>{ item.woe.name }</Text>
@@ -50,17 +52,21 @@ class Locations extends Component {
     );
   }
 
-  renderPlaces(places, images) {
-    const { done } = this.props;
+  renderPlaces() {
+    const { places, images, done } = this.props;
     const { offset } = this.state;
 
     if (done) {
-      let placesToRender = places.splice(0, offset + 4);
+      let placesOffset = places.splice(0, offset + 5);
 
       return (
-        <ScrollView>
-          { places.map( (item, index) => this._renderItem(item, index, images)) }
-        </ScrollView>
+        <FlatList
+          data={ placesOffset }
+          extraData={ images }
+          renderItem={ this._renderItem }
+          keyExtractor={ this._keyExtractor }
+          onEndReached={ () => console.log("end reached") }
+        />
       );
     }
     else {
@@ -71,12 +77,12 @@ class Locations extends Component {
 
   render() {
     const { places, images, done } = this.props;
-    
+
     return (
       <View style={styles.container}>
         <View style={ styles.topNavigation }></View>
         <View style={ styles.mainViewContainer }>
-          { this.renderPlaces(places, images) }
+          { this.renderPlaces() }
         </View>
       </View>
     );
