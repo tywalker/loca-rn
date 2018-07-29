@@ -8,6 +8,13 @@ import { locationsRequest, imagesRequest } from '../../actions/locations';
 import { isEmpty } from '../../helpers/helpers';
 
 class Locations extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      offset: 0,
+    }
+  }
 
   componentDidUpdate(prevProps) {
     const { dispatch, lat, lon, places, images, done } = this.props;
@@ -25,6 +32,15 @@ class Locations extends Component {
   _keyExtractor = ( item, index ) => item.id;
 
   _renderItem = (item, index, images) => {
+    let imageUri;
+
+    try {
+      imageUri = images[index][item.id][0].urlSm;
+    }
+    catch(error) {
+      imageUri = "";
+    }
+
     return (
       <View
         key={ index }
@@ -33,7 +49,7 @@ class Locations extends Component {
         <Text style={ styles.locaLabel }>{ item.woe.name }</Text>
         <View style={ styles.locaImageContainer }>
           <Image
-            source={{ uri: images[index][item.id][0].urlSm }}
+            source={{ imageUri }}
             style={{ height: 150, width: 200 }}
           />
         </View>
@@ -41,18 +57,33 @@ class Locations extends Component {
     );
   }
 
+  renderPlaces(places, images) {
+    const { done } = this.props;
+    const { offset } = this.state;
+
+    if (done) {
+      let placesToRender = places.splice(0, offset + 4);
+
+      return (
+        <ScrollView>
+          { places.map( (item, index) => this._renderItem(item, index, images)) }
+        </ScrollView>
+      );
+    }
+    else {
+      return <View></View>;
+    }
+  }
+
 
   render() {
     const { places, images, done } = this.props;
+    console.log(images);
     return (
       <View style={styles.container}>
         <View style={ styles.topNavigation }></View>
         <View style={ styles.mainViewContainer }>
-          {
-            !done
-              ? <View></View>
-              : <ScrollView>{ places.map( (item, index) => this._renderItem(item, index, images))}</ScrollView>
-          }
+          { this.renderPlaces(places, images) }
         </View>
       </View>
     );
