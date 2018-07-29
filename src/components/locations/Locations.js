@@ -14,6 +14,8 @@ class Locations extends Component {
     this.state = {
       offset: 0,
     }
+
+    this.placesList = [];
   }
 
   componentDidUpdate(prevProps) {
@@ -35,7 +37,6 @@ class Locations extends Component {
     const { images } = this.props;
     let imageUri = images[item.id][0].urlSm;
 
-    console.log(item)
     return (
       <View
         key={ item.id }
@@ -57,15 +58,17 @@ class Locations extends Component {
     const { offset } = this.state;
 
     if (done) {
-      let placesOffset = places.splice(0, offset + 5);
+      let placesOffset = places.splice(offset, offset + 5);
+      this.placesList = this.placesList.concat(placesOffset);
 
       return (
         <FlatList
-          data={ placesOffset }
+          data={ this.placesList }
           extraData={ images }
           renderItem={ this._renderItem }
           keyExtractor={ this._keyExtractor }
-          onEndReached={ () => console.log("end reached") }
+          onEndReached={ ()=> this.setState({ offset: offset + 1 }) }
+          onEndReachedThreshold={ 0.1 }
         />
       );
     }
