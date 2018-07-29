@@ -32,14 +32,7 @@ class Locations extends Component {
   _keyExtractor = ( item, index ) => item.id;
 
   _renderItem = (item, index, images) => {
-    let imageUri;
-    
-    try {
-      imageUri = images[index][item.id][0].urlSm;
-    }
-    catch(error) {
-      imageUri = "";
-    }
+    let imageUri = images[item.id][0].urlSm;
 
     return (
       <View
@@ -49,7 +42,7 @@ class Locations extends Component {
         <Text style={ styles.locaLabel }>{ item.woe.name }</Text>
         <View style={ styles.locaImageContainer }>
           <Image
-            source={{ imageUri }}
+            source={{ uri: imageUri }}
             style={{ height: 150, width: 200 }}
           />
         </View>
@@ -78,7 +71,7 @@ class Locations extends Component {
 
   render() {
     const { places, images, done } = this.props;
-    console.log(images);
+    
     return (
       <View style={styles.container}>
         <View style={ styles.topNavigation }></View>
