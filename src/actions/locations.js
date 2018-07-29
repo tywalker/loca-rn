@@ -105,7 +105,13 @@ export const imagesRequest = (places) => {
     let images = buildImagePromiseArray(places);
     Promise.all(images)
       .then( (images) => {
-        dispatch(imagesSuccess(images));
+        let imagesObj = {};
+
+        images.map( image => {
+          for (property in image) { imagesObj[property] = image[property] }
+        });
+
+        dispatch(imagesSuccess(imagesObj));
         dispatch(imagesDone());
       });
   }

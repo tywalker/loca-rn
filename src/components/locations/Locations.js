@@ -33,7 +33,7 @@ class Locations extends Component {
 
   _renderItem = (item, index, images) => {
     let imageUri;
-
+    
     try {
       imageUri = images[index][item.id][0].urlSm;
     }
