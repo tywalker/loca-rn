@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { getBoundingBoxFromGeo } from '../../services/api';
 
@@ -17,23 +17,21 @@ class Locations extends Component {
 
       dispatch(locationsRequest(bbox, 5.0));
     }
-    if (isEmpty(images)) {
-      console.log('fired')
+    if (places.length > 0) {
       dispatch(imagesRequest(places));
     }
   }
 
   _keyExtractor = ( item, index ) => item.id;
 
-  _renderItem = ({ item, index }) => (
+  _renderItem = (item, index, images) => (
     <View
-      id={ index }
+      key={ index }
       style={ styles.location }
     >
       <Text style={ styles.locaLabel }>{ item.woe.name }</Text>
       <View style={ styles.locaImageContainer }>
         <Image
-          source={{ uri: item.photos.displayPhotos[`${item.id}`][0].urlSm }}
           style={{ height: 150, width: 200 }}
         />
       </View>
@@ -42,21 +40,15 @@ class Locations extends Component {
 
 
   render() {
-    const { places, images } = this.props;
-
+    const { places, images, done } = this.props;
     return (
       <View style={styles.container}>
         <View style={ styles.topNavigation }></View>
         <View style={ styles.mainViewContainer }>
           {
-            isEmpty(images)
+            !done
               ? <View></View>
-              : <FlatList
-                  data={ places }
-                  extraData={ images }
-                  keyExtractor={ this._keyExtractor }
-                  renderItem={ this._renderItem }
-                />
+              : <ScrollView>{ places.map( (item, index) => this._renderItem(item, index, images))}</ScrollView>
           }
         </View>
       </View>
@@ -103,7 +95,8 @@ function mapStateToProps(state) {
     places: state.locations.places,
     lat: state.locations.lat,
     lon: state.locations.lon,
-    images: state.images.images
+    images: state.images.images,
+    done: state.images.done
   }
 }
 

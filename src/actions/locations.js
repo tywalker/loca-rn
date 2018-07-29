@@ -1,7 +1,7 @@
 import {
   fetchPlacesFromBB,
   fetchPlaceChildren,
-  fetchImages
+  fetchImages,
 } from '../services/api';
 
 export const LAT_LON = "LAT_LON";
@@ -11,6 +11,7 @@ export const LOCATIONS_SUCCESS = "LOCATIONS_SUCCESS";
 export const IMAGES_REQUEST = "IMAGES_REQUEST";
 export const IMAGES_FAILURE = "IMAGES_FAILURE";
 export const IMAGES_SUCCESS = "IMAGES_SUCCESS";
+export const IMAGES_DONE = "IMAGES_DONE";
 
 import { normalizePlaces, normalizeImages } from '../services/normalize';
 
@@ -49,6 +50,12 @@ export const imagesFailure = error => {
   }
 }
 
+export const imagesDone = () => {
+  return {
+    type: IMAGES_DONE
+  }
+}
+
 /**
  * Thunks
  */
@@ -72,39 +79,32 @@ export const locationsRequest = (bbox, distance) => {
   }
 };
 
+export const buildImagePromiseArray = (places) => {
+  let promiseArr = [];
+  let promises = places.map( place => {
+    return fetchImages(place.id)
+      .then( res => res.data )
+      .then( res => {
+        let resArr = res.photos.photo;
+
+        if (res.photos.photo) {
+          let nImages = normalizeImages(resArr, place.id);
+          return nImages
+        }
+      })
+      .catch( error => dispatch(imagesFailure(error)));
+  })
+  return promises;
+}
+
 export const imagesRequest = (places) => {
   return function(dispatch) {
-
-    let updatedPlaces = [];
-    let imageObj = {};
-
-    places.map( place => {
-      fetchImages(place.id)
-        .then( res => res.data )
-        .then( res => {
-          let resArr = res.photos.photo;
-          if (res.photos.photo) {
-            let nImages = normalizeImages(resArr, place.id);
-            let updatedPlace = place;
-
-            updatedPlace.photos.displayPhotos = nImages;
-            updatedPlaces = updatedPlaces.concat(updatedPlace);
-
-            dispatch(locationsSuccess(updatedPlaces))
-
-            return new Promise.resolve(nImages);
-          }
-          else {
-            return;
-          }
-        })
-        .then( (data) => {
-          dispatch(imagesSuccess(data));
-        })
-        .catch( error => {
-          dispatch(imagesFailure(error))
-        });
-
-    })
+    let imagePromiseArray = [];
+    let images = buildImagePromiseArray(places);
+    Promise.all(images)
+      .then( (images) => {
+        console.log("images", images)
+        dispatch(imagesDone());
+      });
   }
 };

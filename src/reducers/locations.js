@@ -6,7 +6,8 @@ import {
   LOCATIONS_REQUEST,
   IMAGES_SUCCESS,
   IMAGES_FAILURE,
-  IMAGES_REQUEST
+  IMAGES_REQUEST,
+  IMAGES_DONE
 } from '../actions/locations';
 
 const initialviews = { view: 'loading', scrollable: true };
@@ -36,7 +37,6 @@ const locations = (state = {
         error: action.error
       }
     case LOCATIONS_SUCCESS:
-    console.log("places", state.places)
       return {
         ...state,
         isfetching: false,
@@ -50,6 +50,7 @@ const locations = (state = {
 const images = (state = {
   isfetching: false,
   images: {},
+  done: false
 }, action) => {
   switch (action.type) {
     case IMAGES_FAILURE:
@@ -63,6 +64,11 @@ const images = (state = {
         ...state,
         isfetching: false,
         images: Object.assign(action.images, state.images),
+      }
+    case IMAGES_DONE:
+      return {
+        ...state,
+        done: true
       }
     default:
       return state
