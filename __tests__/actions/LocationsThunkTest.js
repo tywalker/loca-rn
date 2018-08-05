@@ -34,17 +34,30 @@ describe('async actions', () => {
   })
 
   it('creates LOCATIONS_SUCCESS when fetching locations has been done', () => {
+    let baseUrl = "https://api.flickr.com/services/rest/?method=flickr.places.getChildrenWithPhotosPublic";
+    let params = {
+      api_key : "2b3fe0a28145f01a2ab0a1ae3ee65c1d",
+      place_id: "8fIn8DVTUb7r2JsG",
+      format : "json",
+      nojsoncallback : "1",
+    }
+
+    let query = Object.keys(params)
+        .map(k => k + '=' + params[k])
+        .join('&')
+
     fetchMock
-      .getOnce('/todos',
-        { body: { places: ['do something'] }, headers: { 'content-type': 'application/json' } });
+      .getOnce(baseUrl + "&" + query,
+      { body: { places: ['do something'] }, headers: { 'content-type': 'application/json' } });
 
     const expectedActions = [{
       type: actions.LOCATIONS_SUCCESS,
-      places: [Array]
+      places: { places: ['do something'] }
     }];
 
     const store = mockStore({ places: [] });
 
+    // return store.dispatch(actions.fetchTodos()).then(() => {
     return store.dispatch(actions.locationsRequest(bbox, distance)).then(() => {
       expect(store.getActions()).toEqual(expectedActions)
     });
