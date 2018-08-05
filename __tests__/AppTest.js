@@ -1,6 +1,8 @@
 import React from 'react';
 import App from '../App';
 
-test('App matches Snapshot', () => {
+import renderer from 'react-test-renderer';
+
+test('testing works correctly', () => {
   expect(true).toBeTruthy();
 });
