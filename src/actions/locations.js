@@ -59,14 +59,6 @@ export const imagesDone = () => {
 /**
  * Thunks
  */
-export function fetchTodos() {
-  return dispatch => {
-    return fetch('https://jsonplaceholder.typicode.com/todos')
-      .then(res => res.json())
-      .then(body => dispatch(locationsSuccess(body)))
-      .catch(ex => dispatch(locationsFailure(ex)))
-  }
-}
 export function locationsRequest(bbox, distance) {
   return dispatch => {
     return fetchPlacesFromBB(bbox, distance)
