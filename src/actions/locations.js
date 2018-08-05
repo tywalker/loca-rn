@@ -61,7 +61,7 @@ export const imagesDone = () => {
  */
 export const locationsRequest = (bbox, distance) => {
   return function(dispatch) {
-    fetchPlacesFromBB(bbox, distance)
+    return fetchPlacesFromBB(bbox, distance)
       .then( res => res.data )
       .then( res => fetchPlaceChildren(res) )
       .then( res => {
