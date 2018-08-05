@@ -21,5 +21,4 @@ describe("isEmpty", () => {
 
     expect(typeof isEmpty(emptyObj)).toEqual('boolean');
   });
-
-})
+});
