@@ -49,7 +49,7 @@ describe('async actions', () => {
   });
 
   describe('images', () => {
-    it('creates IMAGES_SUCCESS when fetching images has been done', () => {
+    it.skip('creates IMAGES_SUCCESS when fetching images has been done', () => {
       const expectedAction = { type: actions.IMAGES_SUCCESS };
       const store = mockStore({ images: [] });
       const places = mockPlaces();
