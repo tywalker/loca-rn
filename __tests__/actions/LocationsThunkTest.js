@@ -33,7 +33,7 @@ describe('async actions', () => {
     expect(store.dispatch).toBeDefined();
   })
 
-  it('creates LOCATIONS_SUCCESS when fetching locations has been done', () => {
+  it('creates LOCATIONS_SUCCESS when fetching locations is successful', () => {
     const expectedAction = { type: actions.LOCATIONS_SUCCESS };
 
     const store = mockStore({ places: [] });
@@ -42,23 +42,18 @@ describe('async actions', () => {
       const storeActions = store.getActions();
 
       expect(storeActions[0]["type"]).toEqual(expectedAction.type);
-      expect(storeActions[0]["places"].length).toBeGreaterThan(1);
     });
   });
 
-  it('should return an empty object when no locations found', () => {
-    const expectedAction = { type: actions.LOCATIONS_SUCCESS };
+  it('creates IMAGES_SUCCESS when fetching images has been done', () => {
+    const expectedAction = { type: actions.IMAGES_SUCCESS };
 
-    const store = mockStore({ places: [] });
+    const store = mockStore({ images: [] });
 
-    bbox = api.getBoundingBoxFromGeo(0,0,5);
-    distance = 5;
-
-    return store.dispatch(actions.locationsRequest(bbox, distance)).then(() => {
+    return store.dispatch(actions.imagesRequest()).then(() => {
       const storeActions = store.getActions();
 
       expect(storeActions[0]["type"]).toEqual(expectedAction.type);
-      expect(storeActions[0]["places"].length).toEqual(0);
     });
   });
 

@@ -91,7 +91,7 @@ export const buildImagePromiseArray = (places) => {
           let nImages = normalizeImages(resArr, place.id);
           let placeCopy = place;
 
-          return nImages
+          return nImages;
         }
       })
       .catch( error => dispatch(imagesFailure(error)));
