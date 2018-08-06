@@ -34,11 +34,6 @@ describe('async actions', () => {
   })
 
   it('creates LOCATIONS_SUCCESS when fetching locations has been done', () => {
-    const expectedActions = [{
-      type: actions.LOCATIONS_SUCCESS,
-      places: { places: ['do something'] }
-    }];
-
     const expectedAction = { type: actions.LOCATIONS_SUCCESS };
 
     const store = mockStore({ places: [] });
@@ -47,7 +42,24 @@ describe('async actions', () => {
       const storeActions = store.getActions();
 
       expect(storeActions[0]["type"]).toEqual(expectedAction.type);
-      expect(Array.isArray(storeActions[0]["places"])).toBeTruthy();
+      expect(storeActions[0]["places"].length).toBeGreaterThan(1);
     });
   });
+
+  it('should return an empty object when no locations found', () => {
+    const expectedAction = { type: actions.LOCATIONS_SUCCESS };
+
+    const store = mockStore({ places: [] });
+
+    bbox = api.getBoundingBoxFromGeo(0,0,5);
+    distance = 5;
+
+    return store.dispatch(actions.locationsRequest(bbox, distance)).then(() => {
+      const storeActions = store.getActions();
+
+      expect(storeActions[0]["type"]).toEqual(expectedAction.type);
+      expect(storeActions[0]["places"].length).toEqual(0);
+    });
+  });
+
 });
