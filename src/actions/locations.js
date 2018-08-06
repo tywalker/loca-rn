@@ -103,7 +103,7 @@ export const imagesRequest = (places) => {
   return function(dispatch) {
     let imagePromiseArray = [];
     let images = buildImagePromiseArray(places);
-    Promise.all(images)
+    return Promise.all(images)
       .then( (images) => {
         let imagesObj = {};
 
@@ -113,6 +113,7 @@ export const imagesRequest = (places) => {
 
         dispatch(imagesSuccess(imagesObj));
         dispatch(imagesDone());
-      });
+      })
+      .catch(error => imagesFailure(error) );
   }
 };

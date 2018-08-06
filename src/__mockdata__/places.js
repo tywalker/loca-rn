@@ -1,4 +1,5 @@
-import * as api from '../src/services/normalize';
+import React from 'react';
+import * as api from '../services/normalize';
 
 const placesJSON = {
   "places":{
@@ -24,12 +25,14 @@ const placesJSON = {
   }
 }
 
-let combinedArr = [];
+export const mockPlaces = () => {
+  let combinedArr = [];
 
-placesJSON.places.place.map( places => {
-  combinedArr = combinedArr.concat(places);
-})
+  placesJSON.places.place.map( places => {
+    combinedArr = combinedArr.concat(places);
+  })
 
-let nPlaces = normalizePlaces(combinedArr);
+  let nPlaces = api.normalizePlaces(combinedArr);
 
-console.log(nPlaces);
+  return nPlaces;
+}

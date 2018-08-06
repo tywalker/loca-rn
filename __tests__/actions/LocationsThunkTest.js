@@ -5,6 +5,7 @@ import fetchMock from 'fetch-mock';
 
 import * as actions from '../../src/actions/locations';
 import * as api from '../../src/services/api';
+import { mockPlaces } from '../../src/__mockdata__/places';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -12,6 +13,7 @@ const mockStore = configureMockStore(middlewares);
 it('should contain no syntax errors', () => {
   expect(true).toBeTruthy();
 });
+
 describe('async actions', () => {
   let bbox, distance;
 
@@ -33,28 +35,33 @@ describe('async actions', () => {
     expect(store.dispatch).toBeDefined();
   })
 
-  it('creates LOCATIONS_SUCCESS when fetching locations is successful', () => {
-    const expectedAction = { type: actions.LOCATIONS_SUCCESS };
+  describe('places', () => {
+    it('creates LOCATIONS_SUCCESS when fetching locations is successful', () => {
+      const expectedAction = { type: actions.LOCATIONS_SUCCESS };
+      const store = mockStore({ places: [] });
 
-    const store = mockStore({ places: [] });
+      return store.dispatch(actions.locationsRequest(bbox, distance)).then(() => {
+        const storeActions = store.getActions();
 
-    return store.dispatch(actions.locationsRequest(bbox, distance)).then(() => {
-      const storeActions = store.getActions();
-
-      expect(storeActions[0]["type"]).toEqual(expectedAction.type);
+        expect(storeActions[0]["type"]).toEqual(expectedAction.type);
+      });
     });
   });
 
-  it('creates IMAGES_SUCCESS when fetching images has been done', () => {
-    const expectedAction = { type: actions.IMAGES_SUCCESS };
+  describe('images', () => {
+    it('creates IMAGES_SUCCESS when fetching images has been done', () => {
+      const expectedAction = { type: actions.IMAGES_SUCCESS };
+      const store = mockStore({ images: [] });
+      const places = mockPlaces();
 
-    const store = mockStore({ images: [] });
+      return store.dispatch(actions.buildImagePromiseArray(places))
+        .then( () => imagesRequest(places) )
+        .then( () => {
+          const storeActions = store.getActions();
 
-    return store.dispatch(actions.imagesRequest()).then(() => {
-      const storeActions = store.getActions();
+          expect(storeActions).toEqual(expectedAction);
 
-      expect(storeActions[0]["type"]).toEqual(expectedAction.type);
+      });
     });
   });
-
 });
