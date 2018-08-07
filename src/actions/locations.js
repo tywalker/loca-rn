@@ -22,10 +22,10 @@ export const latLon = (lat, lon) => {
     lon
   }
 }
-export const locationsSuccess = places => {
+export const locationsSuccess = locations => {
   return {
     type: LOCATIONS_SUCCESS,
-    places
+    locations
   }
 };
 

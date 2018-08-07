@@ -29,13 +29,13 @@ describe('locations', () => {
   })
 
   describe('should create an action when locations fetched successfully', () => {
-    const places = {};
+    const locations = {};
     const expectedAction = {
       type: actions.LOCATIONS_SUCCESS,
-      places
+      locations
     };
 
-    expect(actions.locationsSuccess(places)).toEqual(expectedAction);
+    expect(actions.locationsSuccess(locations)).toEqual(expectedAction);
   });
 
   describe('should create an action when locations fetch failed', () => {

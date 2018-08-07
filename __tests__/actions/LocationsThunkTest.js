@@ -5,7 +5,7 @@ import fetchMock from 'fetch-mock';
 
 import * as actions from '../../src/actions/locations';
 import * as api from '../../src/services/api';
-import { mockPlaces } from '../../src/__mockdata__/places';
+import { mockLocations } from '../../src/__mockdata__/locations';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -31,14 +31,14 @@ describe('async actions', () => {
   });
 
   it('should have reference to store and dispatch', () => {
-    const store = mockStore({ places: [] });
+    const store = mockStore({ locations: [] });
     expect(store.dispatch).toBeDefined();
   })
 
-  describe('places', () => {
+  describe('locations', () => {
     it('creates LOCATIONS_SUCCESS when fetching locations is successful', () => {
       const expectedAction = { type: actions.LOCATIONS_SUCCESS };
-      const store = mockStore({ places: [] });
+      const store = mockStore({ locations: [] });
 
       return store.dispatch(actions.locationsRequest(bbox, distance)).then(() => {
         const storeActions = store.getActions();
@@ -52,10 +52,10 @@ describe('async actions', () => {
     it.skip('creates IMAGES_SUCCESS when fetching images has been done', () => {
       const expectedAction = { type: actions.IMAGES_SUCCESS };
       const store = mockStore({ images: [] });
-      const places = mockPlaces();
+      const locations = mockLocations();
 
-      return store.dispatch(actions.buildImagePromiseArray(places))
-        .then( () => imagesRequest(places) )
+      return store.dispatch(actions.buildImagePromiseArray(locations))
+        .then( () => imagesRequest(locations) )
         .then( () => {
           const storeActions = store.getActions();
 

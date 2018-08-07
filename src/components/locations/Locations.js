@@ -15,18 +15,18 @@ class Locations extends Component {
       offset: 0,
     }
 
-    this.placesList = [];
+    this.locationsList = [];
   }
 
   componentDidUpdate(prevProps) {
-    const { dispatch, lat, lon, places, images, done } = this.props;
+    const { dispatch, lat, lon, locations, images, done } = this.props;
 
     if (prevProps.lat !== lat && prevProps.lon !== lon) {
       let bbox = getBoundingBoxFromGeo(lat, lon, 5.0);
 
       dispatch(locationsRequest(bbox, 5.0));
     }
-    if (places.length > 0 && !done) {
+    if (locations.length > 0 && !done) {
       dispatch(imagesRequest(places));
     }
   }
@@ -53,13 +53,13 @@ class Locations extends Component {
     );
   }
 
-  renderPlaces() {
-    const { places, images, done } = this.props;
+  renderLocations() {
+    const { locations, images, done } = this.props;
     const { offset } = this.state;
 
     if (done) {
-      let placesOffset = places.splice(offset, offset + 5);
-      this.placesList = this.placesList.concat(placesOffset);
+      let locationsOffset = locations.splice(offset, offset + 5);
+      this.locationsList = this.locationsList.concat(placesOffset);
 
       return (
         <FlatList
@@ -80,13 +80,13 @@ class Locations extends Component {
 
 
   render() {
-    const { places, images, done } = this.props;
+    const { locations, images, done } = this.props;
 
     return (
       <View style={styles.container}>
         <View style={ styles.topNavigation }></View>
         <View style={ styles.mainViewContainer }>
-          { this.renderPlaces() }
+          { this.renderLocations() }
         </View>
       </View>
     );

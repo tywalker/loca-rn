@@ -1,7 +1,7 @@
 import React from 'react';
 import * as api from '../services/normalize';
 
-const placesJSON = {
+const locationsJSON = {
   "places":{
     "place_type":"county",
     "total":9,
@@ -25,7 +25,7 @@ const placesJSON = {
   }
 }
 
-export const mockPlaces = () => {
+export const mockLocations = () => {
   let combinedArr = [];
 
   placesJSON.places.place.map( places => {

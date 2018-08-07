@@ -21,7 +21,7 @@ export const views = ( state = initialviews, action ) => {
 
 export const locations = (state = {
   isfetching: false,
-  places: [],
+  locations: [],
 }, action) => {
   switch (action.type) {
     case LAT_LON:
@@ -40,7 +40,7 @@ export const locations = (state = {
       return {
         ...state,
         isfetching: false,
-        places: action.places,
+        locations: action.locations,
     }
     default:
       return state

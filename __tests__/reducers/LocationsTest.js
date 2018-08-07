@@ -25,5 +25,19 @@ describe('locations reducer', () => {
         lon: 45
       });
     });
+
+    it('should handle LOCATIONS_SUCCESS', () => {
+      expect(reducers.locations(
+        [],
+        {
+          type: types.LOCATIONS_SUCCESS,
+          locations: 45
+        }
+      ))
+      .toEqual({
+        lat: 45,
+        lon: 45
+      });
+    });
   });
 })
