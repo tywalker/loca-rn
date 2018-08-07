@@ -12,14 +12,14 @@ import {
 
 const initialviews = { view: 'loading', scrollable: true };
 
-function views( state = initialviews, action ) {
+export const views = ( state = initialviews, action ) => {
   switch (action.type) {
   default:
       return state
   }
 }
 
-const locations = (state = {
+export const locations = (state = {
   isfetching: false,
   places: [],
 }, action) => {
@@ -47,7 +47,7 @@ const locations = (state = {
   }
 };
 
-const images = (state = {
+export const images = (state = {
   isfetching: false,
   images: {},
   done: false

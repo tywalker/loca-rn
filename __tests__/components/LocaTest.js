@@ -40,7 +40,7 @@ describe("App loaded", () => {
         <View style={ styles.container }>
           <Locations boundingBox={ this.bbox } />
         </View>
-      </Loca> 
+      </Loca>
     );
 
     expect(wrapper.dive()).toMatchSnapshot();

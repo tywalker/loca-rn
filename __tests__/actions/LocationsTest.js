@@ -13,7 +13,7 @@ describe('locations', () => {
       let latLon = actions.latLon;
 
       expect(latLon).toBeDefined();
-    })
+    });
 
     it('should create an action to update latitude and longitude', () => {
       const lat = '45.5';
