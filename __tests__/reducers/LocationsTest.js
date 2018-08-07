@@ -1,7 +1,7 @@
 import * as reducers from '../../src/reducers/locations';
 import * as types from '../../src/actions/locations';
-describe('locations reducer', () => {
 
+describe('locations reducers', () => {
   describe('views', () => {
     it('should return the initial state', () => {
       expect(reducers.views(undefined, {})).toEqual(
