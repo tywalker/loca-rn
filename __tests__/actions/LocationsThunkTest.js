@@ -48,18 +48,18 @@ describe('async actions', () => {
     });
   });
 
-  describe('images', () => {
+  describe.skip('images', () => {
     it('creates IMAGES_SUCCESS when fetching images has been done', () => {
       const expectedAction = { type: actions.IMAGES_SUCCESS };
       const store = mockStore({ images: [] });
 
       const locations = mockLocations();
 
-      // return store.dispatch(actions.buildImagePromiseArray(locations)).then( () => {
-      //     const storeActions = store.getActions();
-      //
-      //     expect(storeActions).toEqual(expectedAction);
-      // });
+      return store.dispatch(actions.buildImagePromiseArray(locations)).then( () => {
+          const storeActions = store.getActions();
+
+          expect(storeActions).toEqual(expectedAction);
+      });
     });
   });
 });
