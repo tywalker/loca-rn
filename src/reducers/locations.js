@@ -20,7 +20,7 @@ export const views = ( state = initialviews, action ) => {
 }
 
 export const locations = (state = {
-  isfetching: false,
+  isFetching: false,
   locations: [],
 }, action) => {
   switch (action.type) {
@@ -33,13 +33,13 @@ export const locations = (state = {
     case LOCATIONS_FAILURE:
       return {
         ...state,
-        isfetching: true,
+        isFetching: false,
         error: action.error
       }
     case LOCATIONS_SUCCESS:
       return {
         ...state,
-        isfetching: false,
+        isFetching: false,
         locations: action.locations,
     }
     default:
@@ -48,27 +48,27 @@ export const locations = (state = {
 };
 
 export const images = (state = {
-  isfetching: false,
+  isFetching: false,
   images: {},
-  done: false
+  imagesDone: false
 }, action) => {
   switch (action.type) {
     case IMAGES_FAILURE:
       return {
         ...state,
-        isfetching: true,
+        isFetching: false,
         error: action.error
       }
     case IMAGES_SUCCESS:
       return {
         ...state,
-        isfetching: false,
+        isFetching: false,
         images: action.images
       }
     case IMAGES_DONE:
       return {
         ...state,
-        done: true
+        imagesDone: !state.imagesDone
       }
     default:
       return state

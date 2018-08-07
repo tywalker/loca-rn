@@ -31,12 +31,76 @@ describe('locations reducer', () => {
         [],
         {
           type: types.LOCATIONS_SUCCESS,
-          locations: 45
+          locations: [{ places: { id: 1, woe_name: 'raleigh'} }],
+          isFetching: true
         }
       ))
       .toEqual({
-        lat: 45,
-        lon: 45
+        locations: [{ places: { id: 1, woe_name: 'raleigh'} }],
+        isFetching: false
+      });
+    });
+
+    it('should handle LOCATIONS_FAILURE', () => {
+      expect(reducers.locations(
+        [],
+        {
+          type: types.LOCATIONS_FAILURE,
+          error: 'This is an error',
+          isFetching: true
+        }
+      ))
+      .toEqual({
+        error: 'This is an error',
+        isFetching: false
+      });
+    });
+  });
+
+  describe('Images', () => {
+    it('should handle IMAGES_DONE', () => {
+      expect(reducers.images(
+        { imagesDone: false },
+        {
+          type: types.IMAGES_DONE
+        }
+      ))
+      .toEqual({
+        imagesDone: true
+      });
+    });
+
+    it('should handle IMAGES_SUCCESS', () => {
+      expect(reducers.images(
+        {
+          isFetching: false,
+          images: {}
+        },
+        {
+          type: types.IMAGES_SUCCESS,
+          images: [{ url: "http://exmple.com" }, { url: "http://test.com" }],
+        }
+      ))
+      .toEqual({
+        images: [{ url: "http://exmple.com" }, { url: "http://test.com" }],
+        isFetching: false
+      });
+    });
+
+    it('should handle IMAGES_FAILURE', () => {
+      expect(reducers.images(
+        {
+          isFetching: false,
+        },
+        {
+          type: types.IMAGES_FAILURE,
+          error: 'This is an error',
+          isFetching: true
+        }
+      ))
+      .toEqual({
+        error: 'This is an error',
+        isFetching: false
       });
     });
   });
