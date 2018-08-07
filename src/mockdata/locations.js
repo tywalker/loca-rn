@@ -25,10 +25,10 @@ const locationsJSON = {
   }
 }
 
-export const mockLocations = () => {
+export function mockLocations() {
   let combinedArr = [];
 
-  placesJSON.places.place.map( places => {
+  locationsJSON.places.place.map( places => {
     combinedArr = combinedArr.concat(places);
   })
 
