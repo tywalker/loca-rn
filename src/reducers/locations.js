@@ -68,7 +68,7 @@ export const images = (state = {
     case IMAGES_DONE:
       return {
         ...state,
-        imagesDone: !state.imagesDone
+        imagesDone: true
       }
     default:
       return state

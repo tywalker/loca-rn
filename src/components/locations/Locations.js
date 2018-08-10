@@ -19,15 +19,15 @@ class Locations extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { dispatch, lat, lon, locations, images, done } = this.props;
+    const { dispatch, lat, lon, locations, images, imagesDone } = this.props;
 
     if (prevProps.lat !== lat && prevProps.lon !== lon) {
       let bbox = getBoundingBoxFromGeo(lat, lon, 5.0);
 
       dispatch(locationsRequest(bbox, 5.0));
     }
-    if (locations.length > 0 && !done) {
-      dispatch(imagesRequest(places));
+    if (locations.length > 0 && !imagesDone) {
+      dispatch(imagesRequest(locations));
     }
   }
 
@@ -54,16 +54,17 @@ class Locations extends Component {
   }
 
   renderLocations() {
-    const { locations, images, done } = this.props;
+    const { locations, images, imagesDone } = this.props;
     const { offset } = this.state;
 
-    if (done) {
+    if (imagesDone) {
       let locationsOffset = locations.splice(offset, offset + 5);
-      this.locationsList = this.locationsList.concat(placesOffset);
+      this.locationsList = this.locationsList.concat(locationsOffset);
+      console.warn(this.locationsList)
 
       return (
         <FlatList
-          data={ this.placesList }
+          data={ this.locationsList }
           extraData={ images }
           renderItem={ this._renderItem }
           showsVerticalScrollIndicator={ false }
@@ -80,7 +81,7 @@ class Locations extends Component {
 
 
   render() {
-    const { locations, images, done } = this.props;
+    const { locations, images, imagesDone } = this.props;
 
     return (
       <View style={styles.container}>
@@ -129,11 +130,11 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
   return {
-    places: state.locations.places,
+    locations: state.locations.locations,
     lat: state.locations.lat,
     lon: state.locations.lon,
     images: state.images.images,
-    done: state.images.done
+    imagesDone: state.images.imagesDone
   }
 }
 
