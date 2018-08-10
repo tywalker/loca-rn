@@ -41,6 +41,20 @@ class Locations extends Component {
     }
   }
 
+  _renderImages = (locationId) => {
+    const { images } = this.props
+    return images[locationId].map( (image, index) => {
+      if (index <= 3) {
+        return (
+          <Image
+            source={{ uri: image.url }}
+            style={{ height: 200, width: 300 }}
+          />
+        );
+      }
+    })
+  }
+
   _keyExtractor = ( item, index ) => item.id;
 
   _renderItem = ({ item }) => {
@@ -52,12 +66,22 @@ class Locations extends Component {
         key={ item.id }
         style={ styles.location }
       >
-        <Text style={ styles.locaLabel }>{ item.woe.name }</Text>
-        <View style={ styles.locaImageContainer }>
-          <Image
-            source={{ uri: imageUri }}
-            style={{ height: 150, width: 200 }}
-          />
+        <ScrollView
+          style={ styles.locaImageContainer }
+          horizontal={ true }
+          scrollDirection="horizontal"
+        >
+          { this._renderImages(item.id) }
+        </ScrollView>
+        <View style={ styles.infoWrapper }>
+          <View style={ styles.pullLeft }>
+            <Text style={[ styles.locaLabel, styles.locationName ]}>{ item.woe.name }</Text>
+            <Text style={[ styles.locaLabel, styles.milesAway ]}>{ item.woe.name }</Text>
+          </View>
+          <View style={ styles.pullRight }>
+            <Text style={[ styles.locaLabel ]}></Text>
+            <Text style={[ styles.locaLabel, styles.viewMore ]}>View More</Text>
+          </View>
         </View>
       </View>
     );
@@ -122,43 +146,58 @@ const styles = StyleSheet.create({
   },
   mainViewContainer: {
     flex: 0.8,
+    flexDirection: 'column',
     backgroundColor: '#f8f8f8',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingVertical: 20,
   },
   locationsContainer: {
-    flex: 1,
+    flex: 0.8,
+    flexDirection: 'row',
+    justifyContent: 'center',
     minWidth: '90%',
     maxWidth: '90%',
     backgroundColor: '#f9f9f9'
   },
   location: {
+    flex: 0.9,
+    alignSelf: 'center',
     height: 300,
+    overflow: 'hidden'
   },
   locaLabel: {
     color: "#555",
-    fontSize: 16
+    minHeight: 25,
+    paddingVertical: 2
   },
   locaImageContainer: {
     minHeight: 150,
-    minWidth: 200
+    minWidth: 200,
   },
-  // Search Container
-  searchContainer: {
-    flex: 0.8,
-    borderWidth: 1,
+  // Location Item
+  infoWrapper: {
     backgroundColor: "#e0e0e0",
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    paddingVertical: 5
   },
-  searchTouchContainer: {
-    marginTop: 15,
-    height: 45,
-    flex: 0.85,
-    borderWidth: 1,
-    borderRadius: 10,
-    justifyContent: 'center'
-  }
+  pullLeft: {
+    flex: 0.5
+  },
+  pullRight: {
+    flex: 0.5
+  },
+  locationName: {
+    fontSize: 18
+  },
+  milesAway: {
+    fontSize: 14
+  },
+  viewMore: {
+    fontSize: 14,
+    textAlign: 'right'
+  },
+  faveIcon: {},
+  viewAll: {}
 });
 
 function mapStateToProps(state) {
