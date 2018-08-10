@@ -41,10 +41,6 @@ class Locations extends Component {
     }
   }
 
-  _renderTopNavigation() {
-    return <TopNav />
-  }
-
   _keyExtractor = ( item, index ) => item.id;
 
   _renderItem = ({ item }) => {
@@ -88,7 +84,11 @@ class Locations extends Component {
       );
     }
     else {
-      return <View></View>;
+      return (
+        <View>
+          <Text>Loading Locas</Text>
+        </View>
+      );
     }
   }
 
@@ -99,7 +99,7 @@ class Locations extends Component {
     return (
       <View style={styles.container}>
         <View style={ styles.topNavigation }>
-          { this._renderTopNavigation() }
+          <TopNav />
         </View>
         <View style={ styles.mainViewContainer }>
           { this.renderLocations() }
