@@ -1,14 +1,27 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { connect } from 'react-redux';
 
-const TopNavLocations = () => {
-  return (
-    <View style={ styles.searchContainer }>
-      <TouchableOpacity style={ styles.searchTouchContainer }>
-        <Text>Search for locations...</Text>
-      </TouchableOpacity>
-    </View>
-  );
+class TopNavLocations extends Component {
+
+  _onSearchBarPress = () => {
+    const { dispatch } = this.props;
+
+    console.warn(dispatch);
+  }
+
+  render() {
+    return (
+      <View style={ styles.searchContainer }>
+        <TouchableOpacity
+          style={ styles.searchTouchContainer }
+          onPress={ () => this._onSearchBarPress() }
+        >
+          <Text>Search for locations...</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -31,4 +44,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TopNavLocations;
+function mapStateToProps(state) {
+  return {
+    locations: state.locations.locations
+  }
+}
+
+export default connect(mapStateToProps)(TopNavLocations);
