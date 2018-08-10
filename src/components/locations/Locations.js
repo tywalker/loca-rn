@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
-import { FlatList, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  FlatList,
+  Image,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  View
+} from 'react-native';
 import { connect } from 'react-redux';
 import { getBoundingBoxFromGeo } from '../../services/api';
 
@@ -31,6 +39,16 @@ class Locations extends Component {
     }
   }
 
+  _renderTopNavigation() {
+    return (
+      <TouchableOpacity style={ styles.searchTouchContainer }>
+        <View style={ styles.searchBox }>
+          <Text>Search for locations...</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+
   _keyExtractor = ( item, index ) => item.id;
 
   _renderItem = ({ item }) => {
@@ -60,7 +78,6 @@ class Locations extends Component {
     if (imagesDone) {
       let locationsOffset = locations.splice(offset, offset + 5);
       this.locationsList = this.locationsList.concat(locationsOffset);
-      console.warn(this.locationsList)
 
       return (
         <FlatList
@@ -85,7 +102,9 @@ class Locations extends Component {
 
     return (
       <View style={styles.container}>
-        <View style={ styles.topNavigation }></View>
+        <View style={ styles.topNavigation }>
+          { this._renderTopNavigation() }
+        </View>
         <View style={ styles.mainViewContainer }>
           { this.renderLocations() }
         </View>
@@ -125,6 +144,21 @@ const styles = StyleSheet.create({
   locaImageContainer: {
     minHeight: 150,
     minWidth: 200
+  },
+  // Search Container
+  searchTouchContainer: {
+    flex: 1,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row'
+  },
+  searchBox: {
+    height: 50,
+    flex: 0.8,
+    borderWidth: 1,
+    borderRadius: 10,
+    justifyContent: 'center'
   }
 });
 
