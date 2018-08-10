@@ -15,6 +15,8 @@ import { locationsRequest, imagesRequest } from '../../actions/locations';
 
 import { isEmpty } from '../../helpers/helpers';
 
+import TopNav from '../topnav/TopNav';
+
 class Locations extends Component {
   constructor() {
     super();
@@ -40,13 +42,7 @@ class Locations extends Component {
   }
 
   _renderTopNavigation() {
-    return (
-      <TouchableOpacity style={ styles.searchTouchContainer }>
-        <View style={ styles.searchBox }>
-          <Text>Search for locations...</Text>
-        </View>
-      </TouchableOpacity>
-    );
+    return <TopNav />
   }
 
   _keyExtractor = ( item, index ) => item.id;
@@ -121,7 +117,8 @@ const styles = StyleSheet.create({
   },
   topNavigation: {
     flex: 0.2,
-    backgroundColor: '#f0f0f0'
+    backgroundColor: '#f0f0f0',
+    justifyContent: 'flex-end'
   },
   mainViewContainer: {
     flex: 0.8,
@@ -146,16 +143,18 @@ const styles = StyleSheet.create({
     minWidth: 200
   },
   // Search Container
-  searchTouchContainer: {
-    flex: 1,
+  searchContainer: {
+    flex: 0.8,
     borderWidth: 1,
+    backgroundColor: "#e0e0e0",
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row'
   },
-  searchBox: {
-    height: 50,
-    flex: 0.8,
+  searchTouchContainer: {
+    marginTop: 15,
+    height: 45,
+    flex: 0.85,
     borderWidth: 1,
     borderRadius: 10,
     justifyContent: 'center'
